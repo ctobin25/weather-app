@@ -12,6 +12,7 @@ $(document).ready(function() {
     var inputCity = $("#city-input").val().trim();
 
     // Running the searchCity function
+    cityView.empty()
     searchCity(inputCity);
   });
 
@@ -30,6 +31,28 @@ $(document).ready(function() {
 
     var date = curday('/');
 
+    var cityView = $("#city-view")
+
+
+    function fiveDay(five){
+      var queryFiveDay = "api.openweathermap.org/data/2.5/forecast?q=" + {City} + "&appid=" + {API_KEY};
+      $.ajax({
+        url: queryFiveDay,
+        method: "GET"
+      }).then(function(response) {
+        var fiveDay = new forecast();
+
+      })
+
+
+
+
+
+    }
+
+
+
+
   function searchCity(city) {
 
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + API_KEY;
@@ -41,7 +64,7 @@ $(document).ready(function() {
       console.log(today);
       console.log(response);
 
-      var city = $("#city-view")
+      
       var cityName = $("<p>").text("City: " + response.name);
       var icon = $('<img src="http://openweathermap.org/img/wn/' + response.weather[0].icon + '.png" alt="Weather Icon">');
       //var icon = $(`<img src="http://openweathermap.org/img/wn/${response.weather[0].icon}.png alt="Weather Icon">`);
@@ -49,7 +72,9 @@ $(document).ready(function() {
       var temp = $("<p>").text("Temperature: " + response.main.temp);
       var humidity = $("<p>").text("Humidity: " + response.main.humidity);
       var wind = $("<p>").text("Wind Speed: " + response.wind.speed);
-     city.append(icon,cityName,displayDate,temp, humidity,wind)
+
+
+     cityView.append(icon,cityName,displayDate,temp, humidity,wind)
 
      uvIndex(response.coord.lat, response.coord.lon)
 
@@ -69,13 +94,32 @@ $(document).ready(function() {
   }
 
   function uvIndex(lat,lon){
-    var queryURL = `http://api.openweathermap.org/data/2.5/uvi?lat={lat}&lon={lon}&appid=${API_KEY}` ;
+    var queryURL = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${API_KEY}` ;
     $.ajax({
       url: queryURL,
       method: "GET"
     }).then(function(response) {
+      var uv = $('<p>').text("UV Index: ");
+     // uv.addClass("bg-danger")
+      var uvResponse = $('<span>').text(response.value);
+     
+      if (response.value < 3) {
+        //good
+        uvResponse.addClass("bg-success")
+      } else if (response.value > 5){
+          //high
+          uvResponse.addClass("bg-danger")
+      } else  {
+        //moderate
+        uvResponse.addClass("bg-warning")
+      }
+      uv.append(uvResponse)
+      console.log(response.value)
+      cityView.append(uv)
 
+     // return response.value
   })
+
 }
 });
 
