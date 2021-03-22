@@ -14,6 +14,7 @@ $(document).ready(function() {
     // Running the searchCity function
     cityView.empty()
     searchCity(inputCity);
+    fiveDay(inputCity);
   });
 
   var curday = function(sp){
@@ -33,14 +34,38 @@ $(document).ready(function() {
 
     var cityView = $("#city-view")
 
+    var foreCastView = $("#forecast-view")
 
-    function fiveDay(five){
-      var queryFiveDay = "api.openweathermap.org/data/2.5/forecast?q=" + {City} + "&appid=" + {API_KEY};
+
+    function fiveDay(cityName){
+      var queryFiveDay = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + API_KEY;
       $.ajax({
         url: queryFiveDay,
         method: "GET"
       }).then(function(response) {
-        var fiveDay = new forecast();
+        console.log("forecast",response)
+          for (let i = 0; i < response.list.length; i++) {
+            console.log('heree',response.list[i])
+           // const element = response.list[index];
+
+
+            console.log('date',response.list[i].dt_txt)
+
+            if (response.list[i].dt_txt.indexOf("03:00:00") !== -1) {
+              console.log('correct time',response.list[i].dt_txt)
+              
+              var temp = $("<p>").text("Temperature: " + response.list[i].main.temp);
+              
+              foreCastView.append(temp)
+
+            }
+           
+
+           //date at time = 03:00:00
+            
+          }
+        // var fiveDay = new forecast();
+
 
       })
 
