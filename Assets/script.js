@@ -1,17 +1,17 @@
-//weather key 
+
 
 $(document).ready(function() {
 
     var API_KEY = 'ef2f2f4387eaa4acb7befe9698fe58fb'
 
-     // Event handler for user clicking the select-city button
+
   $("#add-city").on("click", function(event) {
-    // Preventing the button from trying to submit the form
+
     event.preventDefault();
-    // Storing the city name
+   
     var inputCity = $("#city-input").val().trim();
 
-    // Running the searchCity function
+  
     cityView.empty()
     searchCity(inputCity);
     fiveDay(inputCity);
@@ -20,7 +20,7 @@ $(document).ready(function() {
   var curday = function(sp){
     today = new Date();
     var dd = today.getDate();
-    var mm = today.getMonth()+1; //As January is 0.
+    var mm = today.getMonth()+1; 
     var yyyy = today.getFullYear();
     
     if(dd<10) dd='0'+dd;
@@ -46,7 +46,9 @@ $(document).ready(function() {
         console.log("forecast",response)
           for (let i = 0; i < response.list.length; i++) {
             console.log('heree',response.list[i])
-           // const element = response.list[index];
+
+            
+           const element = response.list[index];
 
 
             console.log('date',response.list[i].dt_txt)
@@ -55,16 +57,18 @@ $(document).ready(function() {
               console.log('correct time',response.list[i].dt_txt)
               
               var temp = $("<p>").text("Temperature: " + response.list[i].main.temp);
+              var humidity = $("<p>").text("Humidity: " + response.main.humidity);
+              var wind = $("<p>").text("Wind Speed: " + response.wind.speed);
               
-              foreCastView.append(temp)
+              foreCastView.append(temp,humidity,wind) //append rest of things thsat need to go in five day card!
 
             }
            
 
-           //date at time = 03:00:00
+   
             
           }
-        // var fiveDay = new forecast();
+         var fiveDay = new forecast();
 
 
       })
@@ -104,17 +108,7 @@ $(document).ready(function() {
      uvIndex(response.coord.lat, response.coord.lon)
 
 
-      // Constructing HTML containing the artist information
-    //   var artistName = $("<h1>").text(response.name);
-    //   var artistURL = $("<a>").attr("href", response.url).append(artistName);
-    //   var artistImage = $("<img>").attr("src", response.thumb_url);
-    //   var trackerCount = $("<h2>").text(response.tracker_count + " fans tracking this artist");
-    //   var upcomingEvents = $("<h2>").text(response.upcoming_event_count + " upcoming events");
-    //   var goToArtist = $("<a>").attr("href", response.url).text("See Tour Dates");
 
-      // Empty the contents of the artist-div, append the new artist content
-    //   $("#artist-div").empty();
-    //   $("#artist-div").append(artistURL, artistImage, trackerCount, upcomingEvents, goToArtist);
     });
   }
 
