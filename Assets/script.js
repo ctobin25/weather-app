@@ -46,30 +46,24 @@ $(document).ready(function() {
         console.log("forecast",response)
           for (let i = 0; i < response.list.length; i++) {
             console.log('heree',response.list[i])
-
-            
-           const element = response.list[index];
-
-
             console.log('date',response.list[i].dt_txt)
 
             if (response.list[i].dt_txt.indexOf("03:00:00") !== -1) {
+              console.log('okkkk')
               console.log('correct time',response.list[i].dt_txt)
               
               var temp = $("<p>").text("Temperature: " + response.list[i].main.temp);
+              console.log('temptemptemp', temp)
               var humidity = $("<p>").text("Humidity: " + response.main.humidity);
               var wind = $("<p>").text("Wind Speed: " + response.wind.speed);
-              
-              foreCastView.append(temp,humidity,wind) //append rest of things thsat need to go in five day card!
+              console.log("wind",wind)
+              $("#forecast-view").append(temp) //append rest of things thsat need to go in five day card!
 
             }
-           
-
-   
-            
+    
           }
-         var fiveDay = new forecast();
 
+         
 
       })
 
@@ -80,6 +74,7 @@ $(document).ready(function() {
     }
 
 
+    console.log('div', $("#forecast-view"))
 
 
   function searchCity(city) {
@@ -90,13 +85,9 @@ $(document).ready(function() {
       method: "GET"
     }).then(function(response) {
       var today = new Date();
-      console.log(today);
-      console.log(response);
-
-      
+    
       var cityName = $("<p>").text("City: " + response.name);
       var icon = $('<img src="http://openweathermap.org/img/wn/' + response.weather[0].icon + '.png" alt="Weather Icon">');
-      //var icon = $(`<img src="http://openweathermap.org/img/wn/${response.weather[0].icon}.png alt="Weather Icon">`);
       var displayDate = $("<p>").text("Date: " + date);
       var temp = $("<p>").text("Temperature: " + response.main.temp);
       var humidity = $("<p>").text("Humidity: " + response.main.humidity);
